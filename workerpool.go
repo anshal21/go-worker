@@ -4,7 +4,7 @@ import (
 	"sync"
 )
 
-// Request contains the parameters to initialize a worker pool
+// WWorkerPoolInput contains the parameters to initialize a worker pool
 // Default values are used for missing parameters
 // Following are the default values
 //	- WorkerCount: 1
