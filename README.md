@@ -49,7 +49,7 @@ WaitForCompletion is a blocking method, it waits for all the tasks in the pool t
 	wp.WaitForCompletion()
  ``` 
 
-  ### 2. [ Satter-Gather ](https://github.com/anshal21/go-worker/blob/main/examples/scatter-gather/main.go)       
+  ### 2. [ Scatter-Gather ](https://github.com/anshal21/go-worker/blob/main/examples/scatter-gather/main.go)       
  ```go
 
 	// instantiate the workerpool
@@ -79,7 +79,7 @@ WaitForCompletion is a blocking method, it waits for all the tasks in the pool t
 	for _, res := range results {
 		fmt.Println(res.Result())
 	}
- ``` 
+ ```  
 
  ### 3. [ Exit on Error ]( https://github.com/anshal21/go-worker/blob/main/examples/error-pool/main.go )
   ```go
