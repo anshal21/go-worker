@@ -82,7 +82,7 @@ WaitForCompletion is a blocking method, it waits for all the tasks in the pool t
 
  ### 3. [ Exit on Error ]( https://github.com/anshal21/go-worker/blob/main/examples/error-pool/main.go )
   ```go
-// instantiate the workerpool
+    // instantiate the workerpool
 	wp := goworker.NewWorkerPool(&goworker.WorkerPoolInput{
 		WorkerCount: 1,
 	})
