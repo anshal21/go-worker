@@ -51,7 +51,6 @@ WaitForCompletion is a blocking method, it waits for all the tasks in the pool t
 
   ### 2. [ Scatter-Gather ](https://github.com/anshal21/go-worker/blob/main/examples/scatter-gather/main.go)       
  ```go
-
 	// instantiate the workerpool
 	wp := goworker.NewWorkerPool(&goworker.WorkerPoolInput{
 		WorkerCount: 5,
@@ -83,7 +82,6 @@ WaitForCompletion is a blocking method, it waits for all the tasks in the pool t
 
  ### 3. [ Exit on Error ]( https://github.com/anshal21/go-worker/blob/main/examples/error-pool/main.go )
   ```go
-
 // instantiate the workerpool
 	wp := goworker.NewWorkerPool(&goworker.WorkerPoolInput{
 		WorkerCount: 1,
@@ -118,7 +116,6 @@ WaitForCompletion is a blocking method, it waits for all the tasks in the pool t
   ```go
 
 func addworkPeriodically() {
-
 	for {
 		for i := 0; i < 10; i++ {
 			wp.Add(&goworker.Task{
