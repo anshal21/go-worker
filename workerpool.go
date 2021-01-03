@@ -5,16 +5,13 @@ import (
 )
 
 // WorkerPoolInput contains the parameters to initialize a worker pool
-// Default values are used for missing parameters
-// Following are the default values
-//	- WorkerCount: 1
-//	- Buffer: 100
 type WorkerPoolInput struct {
 	// WorkerCount tells how many workers are to be initiated
 	// in the pool, default value is 1
 	WorkerCount int
 	// Buffer specifies how many tasks can be add to the queue, before
 	// the wp.Add becomes a blocking call
+	// Default Value: 100
 	Buffer int
 }
 
