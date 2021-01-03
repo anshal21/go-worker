@@ -4,19 +4,19 @@
 # go-worker
 go-worker provides an implementation of thread pool pattern. It provides the *WorkerPool* interface which exposes following methods
 
-### Add 
+#### Add 
 **Add** method adds the provided task to the task queue of workerpool. It takes a **Task** object as input and returns a **Future** object containing the response from the task
 
-### Start
+#### Start
 **Start** method starts the task execution in the workerpool
 
-### Done
+#### Done
 **Done** sends a signal to the workerpool, notifying that no more tasks are to be added to the pool
 
-### Abort
+#### Abort
 **Abort** sends a signal to the workerpool, notifying it that further task execution should be aborted
 
-### WaitForCompletion
+#### WaitForCompletion
 **WaitForCompletion** is a blocking method, it waits for all the tasks in the pool to complete the execution before returning
 
 
