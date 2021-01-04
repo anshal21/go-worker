@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/anshal21/go-worker/blob/main/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/anshal21/go-worker)](https://goreportcard.com/report/github.com/anshal21/go-worker) [![Build Status](https://travis-ci.com/anshal21/go-worker.svg?branch=main)](https://travis-ci.com/anshal21/go-worker)
 
 # go-worker
-go-worker is an implementation of thread pool pattern. It provides the *WorkerPool* interface which exposes following methods
+go-worker is an implementation of thread pool pattern. It exposes the *WorkerPool* interface which provides following methods  
 
 #### Add 
 Add method adds the provided task to the task queue of workerpool. It takes a *Task* object as input and returns a *Future* object containing the response from the task
