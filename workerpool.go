@@ -89,9 +89,6 @@ func (w *workerpool) Start() {
 					return
 
 				}
-				if w.taskChan == nil {
-					return
-				}
 			}
 		}()
 	}

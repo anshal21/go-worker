@@ -8,7 +8,7 @@ import (
 )
 
 var wp = goworker.NewWorkerPool(&goworker.WorkerPoolInput{
-	WorkerCount: 1,
+	WorkerCount: 10,
 })
 
 func addworkPeriodically() {

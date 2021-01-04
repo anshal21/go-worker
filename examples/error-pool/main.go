@@ -19,7 +19,7 @@ func main() {
 
 	// instantiate the workerpool
 	wp := goworker.NewWorkerPool(&goworker.WorkerPoolInput{
-		WorkerCount: 1,
+		WorkerCount: 5,
 	})
 
 	// starts the execution of queued tasks
