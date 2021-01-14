@@ -6,21 +6,20 @@
 # go-worker
 go-worker is an implementation of thread pool pattern. It exposes the *WorkerPool* interface which provides following methods  
 
-#### Add 
-Add method adds the provided task to the task queue of workerpool. It takes a *Task* object as input and returns a *Future* object containing the response from the task
+`Add`: Adds the provided task to the task queue of workerpool. It takes a *Task* object as input and returns a *Future* object containing the response from the task 
 
-#### Start
-Start method starts the task execution in the workerpool
+`Start`: Starts the task execution in the workerpool  
 
-#### Done
-Done sends a signal to the workerpool, notifying that no more tasks are to be added to the pool
+`Done`: Sends a signal to the workerpool, notifying that no more tasks are to be added to the pool 
 
-#### Abort
-Abort sends a signal to the workerpool, notifying it that further task execution should be aborted
+`Abort`: Sends a signal to the workerpool, notifying it that further task execution should be aborted  
 
-#### WaitForCompletion
-WaitForCompletion is a blocking method, it waits for all the tasks in the pool to complete the execution before returning
-
+`WaitForCompletion`: It is a blocking method, it waits for all the tasks in the pool to complete the execution before returning 
+ 
+ ## Installation
+ ```bash
+ go get github.com/anshal21/go-worker
+ ```
 
  ## Usage Patterns
 
