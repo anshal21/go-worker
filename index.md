@@ -1,4 +1,4 @@
-<img src="https://github.com/anshal21/images/blob/master/go-worker/gopher.png" height=300 ></img>
+<img src="images/blob/master/go-worker/gopher.png" height=300 ></img>
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/anshal21/go-worker/blob/main/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/anshal21/go-worker)](https://goreportcard.com/report/github.com/anshal21/go-worker) [![Build Status](https://travis-ci.com/anshal21/go-worker.svg?branch=main)](https://travis-ci.com/anshal21/go-worker)
 
 # go-worker
