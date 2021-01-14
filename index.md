@@ -1,37 +1,138 @@
-## Welcome to GitHub Pages
 
-You can use the [editor on GitHub](https://github.com/anshal21/go-worker/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+![](https://github.com/anshal21/images/blob/master/go-worker/gopher.png)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/anshal21/go-worker/blob/main/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/anshal21/go-worker)](https://goreportcard.com/report/github.com/anshal21/go-worker) [![Build Status](https://travis-ci.com/anshal21/go-worker.svg?branch=main)](https://travis-ci.com/anshal21/go-worker)
 
-### Markdown
+# go-worker
+go-worker is an implementation of thread pool pattern. It exposes the *WorkerPool* interface which provides following methods  
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+#### Add 
+Add method adds the provided task to the task queue of workerpool. It takes a *Task* object as input and returns a *Future* object containing the response from the task
 
-```markdown
-Syntax highlighted code block
+#### Start
+Start method starts the task execution in the workerpool
 
-# Header 1
-## Header 2
-### Header 3
+#### Done
+Done sends a signal to the workerpool, notifying that no more tasks are to be added to the pool
 
-- Bulleted
-- List
+#### Abort
+Abort sends a signal to the workerpool, notifying it that further task execution should be aborted
 
-1. Numbered
-2. List
+#### WaitForCompletion
+WaitForCompletion is a blocking method, it waits for all the tasks in the pool to complete the execution before returning
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
-```
+ ## Usage Patterns
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+ ### 1. [ Task Distribution / Parallel Processing ](https://github.com/anshal21/go-worker/blob/main/examples/multipler-workers/main.go)  
+ ```go
+    // instantiate the workerpool
+	wp := goworker.NewWorkerPool(&goworker.WorkerPoolInput{
+		WorkerCount: 5,
+	})
 
-### Jekyll Themes
+	// starts the execution of queued tasks
+	wp.Start()
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/anshal21/go-worker/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+	// add tasks to the pool
+	for i := 0; i < 100; i++ {
+		val := i
+		wp.Add(&goworker.Task{
+			F: func() (interface{}, error) {
+				fmt.Println(val)
+				return nil, nil
+			},
+		})
+	}
 
-### Support or Contact
+	// tells goworker that all the tasks are added
+	wp.Done()
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+	wp.WaitForCompletion()
+ ``` 
+
+  ### 2. [ Scatter-Gather ](https://github.com/anshal21/go-worker/blob/main/examples/scatter-gather/main.go)       
+ ```go
+	// instantiate the workerpool
+	wp := goworker.NewWorkerPool(&goworker.WorkerPoolInput{
+		WorkerCount: 5,
+	})
+
+	// starts the execution of queued tasks
+	wp.Start()
+
+	results := make([]*goworker.Future, len(data))
+
+	// scatter the task to multiple workers
+	for index := range data {
+		val := data[index]
+		results[index] = wp.Add(&goworker.Task{
+			F: func() (interface{}, error) {
+				return doWork(val), nil
+			},
+		})
+	}
+
+	wp.Done()
+	wp.WaitForCompletion()
+
+	// gather results from workers
+	for _, res := range results {
+		fmt.Println(res.Result())
+	}
+ ```  
+
+ ### 3. [ Exit on Error ]( https://github.com/anshal21/go-worker/blob/main/examples/error-pool/main.go )
+  ```go
+    // instantiate the workerpool
+	wp := goworker.NewWorkerPool(&goworker.WorkerPoolInput{
+		WorkerCount: 1,
+	})
+
+	// starts the execution of queued tasks
+	wp.Start()
+
+	// scatter the task to multiple workers
+	for i := 0; i < 100; i++ {
+		val := i
+		future := wp.Add(&goworker.Task{
+			F: func() (interface{}, error) {
+				return nil, doWork(val)
+			},
+		})
+
+		// abort worker pool in the case of error
+		go func() {
+			err := future.Error()
+			if err != nil {
+				wp.Abort()
+			}
+		}()
+	}
+
+	wp.Done()
+	wp.WaitForCompletion()
+ ``` 
+
+### 4. [ Run Forever ]( https://github.com/anshal21/go-worker/blob/main/examples/forever-running/main.go )
+  ```go
+
+func addworkPeriodically() {
+	for {
+		for i := 0; i < 10; i++ {
+			wp.Add(&goworker.Task{
+				F: func() (interface{}, error) {
+					fmt.Println("did something")
+					return nil, nil
+				},
+			})
+		}
+	}
+}
+
+func main() {
+	wp.Start()
+	go addworkPeriodically()
+	wp.WaitForCompletion()
+}
+ ``` 
