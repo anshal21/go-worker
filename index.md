@@ -15,7 +15,6 @@ go-worker is an implementation of thread pool pattern. It exposes the *WorkerPoo
 
 `WaitForCompletion`: It is a blocking method, it waits for all the tasks in the pool to complete the execution before returning 
  
- 
 ## Installation
  ```bash
  go get github.com/anshal21/go-worker
