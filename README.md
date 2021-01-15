@@ -22,6 +22,7 @@ go-worker is an implementation of thread pool pattern. It exposes the *WorkerPoo
  
  ### Errors
  `ErrorInactiveWorkerPool`: The error is returned when there is an attempt to add a task to already completed or aborted workerpool
+ 
  `ErrorWorkerPoolAborted`: The error is returned for all the tasks that couldn't be scheduled as the workerpool was aborted
  
  Link: https://anshal21.github.io/go-worker/
