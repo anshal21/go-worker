@@ -106,7 +106,9 @@ go-worker is an implementation of thread pool pattern. It exposes the *WorkerPoo
 		go func() {
 			err := future.Error()
 			if err != nil {
-				wp.Abort()
+				if err != goworker.ErrorInactiveWorkerPool && err != goworker.ErrorWorkerPoolAborted {
+					wp.Abort()
+				}
 			}
 		}()
 	}
