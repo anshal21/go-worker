@@ -64,10 +64,13 @@ func populateDefaults(request *WorkerPoolInput) *WorkerPoolInput {
 }
 
 type workerpool struct {
-	wg          sync.WaitGroup
-	workerCount int
-	abortChan   chan struct{}
-	taskChan    chan taskWrapper
+	sync.RWMutex
+	wg                sync.WaitGroup
+	workerCount       int
+	abortChan         chan struct{}
+	taskChan          chan taskWrapper
+	flushResidueMutex sync.Mutex
+	residueTaskChan   chan taskWrapper
 }
 
 func (w *workerpool) Start() {
@@ -85,7 +88,21 @@ func (w *workerpool) Start() {
 					task.response.NotifyResult(res)
 					task.response.NotifyError(err)
 				case <-w.abortChan:
-					w.taskChan = nil
+					// if already nil, return
+					w.RLock()
+					if w.taskChan == nil {
+						w.RUnlock()
+						return
+					}
+					w.RUnlock()
+
+					// lock for modification, and update to nil
+					w.Lock()
+					if w.taskChan != nil {
+						w.residueTaskChan = w.taskChan
+						w.taskChan = nil
+					}
+					w.Unlock()
 					return
 
 				}
@@ -119,10 +136,24 @@ func (w *workerpool) Done() {
 }
 
 func (w *workerpool) Abort() {
-	if w.taskChan != nil {
-		for i := 0; i < w.workerCount; i++ {
-			w.abortChan <- struct{}{}
+	if w.taskChan == nil {
+		return
+	}
+
+	for i := 0; i < w.workerCount; i++ {
+		w.abortChan <- struct{}{}
+	}
+
+	w.wg.Wait()
+	w.flushResidueMutex.Lock()
+	defer w.flushResidueMutex.Unlock()
+	if w.residueTaskChan != nil {
+		close(w.residueTaskChan)
+		for task := range w.residueTaskChan {
+			task.response.NotifyResult(nil)
+			task.response.NotifyError(ErrorWorkerPoolAborted)
 		}
+		w.residueTaskChan = nil
 	}
 }
 

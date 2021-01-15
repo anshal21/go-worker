@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"time"
 
 	goworker "github.com/anshal21/go-worker"
 )
@@ -19,7 +20,7 @@ func main() {
 
 	// instantiate the workerpool
 	wp := goworker.NewWorkerPool(&goworker.WorkerPoolInput{
-		WorkerCount: 5,
+		WorkerCount: 10,
 	})
 
 	// starts the execution of queued tasks
@@ -38,11 +39,14 @@ func main() {
 		go func() {
 			err := future.Error()
 			if err != nil {
-				wp.Abort()
+				if err != goworker.ErrorInactiveWorkerPool && err != goworker.ErrorWorkerPoolAborted {
+					wp.Abort()
+				}
 			}
 		}()
 	}
 
 	wp.Done()
 	wp.WaitForCompletion()
+	time.Sleep(10 * time.Second)
 }
