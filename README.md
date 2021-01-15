@@ -6,6 +6,7 @@
 # go-worker
 go-worker is an implementation of thread pool pattern. It exposes the *WorkerPool* interface which provides following methods  
 
+### Methods
 `Add`: Adds the provided task to the task queue of workerpool. It takes a *Task* object as input and returns a *Future* object containing the response from the task 
 
 `Start`: Starts the task execution in the workerpool  
@@ -15,6 +16,13 @@ go-worker is an implementation of thread pool pattern. It exposes the *WorkerPoo
 `Abort`: Sends a signal to the workerpool, notifying it that further task execution should be aborted  
 
 `WaitForCompletion`: It is a blocking method, it waits for all the tasks in the pool to complete the execution before returning 
+
+ ### Models
+ `Future`: A future is returned for every task that is added to the workerpool. The user can use *future.Result()* and *future.Error()* methods to get the *result* and *error* from the task
+ 
+ ### Errors
+ `ErrorInactiveWorkerPool`: The error is returned when there is an attempt to add a task to already completed or aborted workerpool
+ `ErrorWorkerPoolAborted`: The error is returned for all the tasks that couldn't be scheduled as the workerpool was aborted
  
  Link: https://anshal21.github.io/go-worker/
  
