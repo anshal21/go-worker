@@ -1,6 +1,8 @@
 <img src="https://i.ibb.co/PgyLYP5/gopher.png" height=320 /> <br/>
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/anshal21/go-worker/blob/main/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/anshal21/go-worker)](https://goreportcard.com/report/github.com/anshal21/go-worker) [![Build Status](https://travis-ci.com/anshal21/go-worker.svg?branch=main)](https://travis-ci.com/anshal21/go-worker)
 
+<meta name="google-site-verification" content="rTlyhTSUW3ysQ-bs_ae7MvPzF7AsVYNK5pAToXELUd4" />
+
 # go-worker
 go-worker is an implementation of thread pool pattern. It exposes the *WorkerPool* interface which provides following methods  
 
